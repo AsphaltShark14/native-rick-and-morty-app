@@ -1,0 +1,26 @@
+import { ReactElement } from "react";
+import { useTranslation } from "react-i18next";
+import { View, Text, StyleSheet } from "react-native"
+
+type Props = {
+  data?: string;
+};
+
+{{#if isDefaultExport}}
+const {{ basename path }} = ({ data }: Props): ReactElement => {
+{{else}}
+export const {{ basename path }} = ({ data }: Props): ReactElement => {
+{{/if}}
+  return (
+    <View>
+      <Text>{t("{{ basename path }}")}</Text>
+      <View>{data}</View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create();
+{{#if isDefaultExport}}
+
+export default {{ basename path }};
+{{/if}}
