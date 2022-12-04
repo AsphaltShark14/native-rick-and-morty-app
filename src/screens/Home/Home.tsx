@@ -1,6 +1,6 @@
+import { Box, Center, Flex, Image, ScrollView } from "native-base";
 import { ReactElement } from "react";
-import { Text, View } from "react-native";
-import { global } from "../../styles/global";
+import { MenuTile } from "./MenuTile/MenuTile";
 
 type Props = {
   data?: string;
@@ -8,10 +8,33 @@ type Props = {
 
 export const Home = ({ data }: Props): ReactElement => {
   return (
-    <View style={global.container}>
-      <Text>Home component</Text>
-      <View>{data}</View>
-    </View>
+    <Box backgroundColor="light.50" borderRadius="lg" m="2">
+      <ScrollView>
+        <Center marginX={4} marginY={4}>
+          <Image
+            alt="title"
+            size="lg"
+            source={require("./resources/title.png")}
+            width="full"
+          />
+        </Center>
+        <Flex>
+          <MenuTile
+            source={require("./resources/characters.jpeg")}
+            title="characters"
+          />
+          <MenuTile
+            source={require("./resources/locations.jpeg")}
+            title="locations"
+          />
+          <MenuTile
+            source={require("./resources/episodes.jpeg")}
+            title="episodes"
+          />
+        </Flex>
+        <Box />
+      </ScrollView>
+    </Box>
   );
 };
 
