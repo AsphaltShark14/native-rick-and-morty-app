@@ -1,13 +1,8 @@
 import { AntDesign } from "@expo/vector-icons";
 import { Box, Flex, Icon, Link, Text } from "native-base";
 import { ReactElement } from "react";
-import { StyleSheet } from "react-native";
 
-type Props = {
-  data?: string;
-};
-
-export const Footer = ({ data }: Props): ReactElement => {
+export const Footer = (): ReactElement => {
   return (
     <Flex
       alignItems="center"
@@ -33,5 +28,3 @@ export const Footer = ({ data }: Props): ReactElement => {
     </Flex>
   );
 };
-
-const styles = StyleSheet.create({});

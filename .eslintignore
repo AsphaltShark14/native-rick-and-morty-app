@@ -28,3 +28,4 @@ npm-debug.log.*
 dist
 plopfile.js
 babel.config.js
+codegen.ts

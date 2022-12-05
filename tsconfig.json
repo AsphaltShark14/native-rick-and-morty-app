@@ -32,7 +32,7 @@
   },
   "include": [
     "src/**/*",
-    "App.tsx"
+    "App.tsx",
   ],
   "exclude": [
     "build",

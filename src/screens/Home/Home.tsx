@@ -1,42 +1,83 @@
-import { Box, Center, Flex, Image, ScrollView } from "native-base";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import {
+  Box,
+  Center,
+  Flex,
+  Heading,
+  Image,
+  ScrollView,
+  Text,
+} from "native-base";
 import { ReactElement } from "react";
 import { Footer } from "./Footer/Footer";
 import { MenuTile } from "./MenuTile/MenuTile";
 
-type Props = {
-  data?: string;
+type RootStackParamList = {
+  Characters: undefined;
+  Episodes: undefined;
+  Home: undefined;
+  Locations: undefined;
 };
 
-export const Home = ({ data }: Props): ReactElement => {
+type Props = NativeStackScreenProps<RootStackParamList, "Home">;
+
+export const Home = ({ navigation }: Props): ReactElement => {
+  const handleCharacters = () => {
+    navigation.navigate("Characters");
+  };
+  const handleLocations = () => {
+    navigation.navigate("Locations");
+  };
+  const handleEpisodes = () => {
+    navigation.navigate("Episodes");
+  };
+
   return (
-    <Box backgroundColor="light.50" borderRadius="lg" m="2">
+    <Box backgroundColor="light.50" borderRadius="lg" flex={1} m="2">
       <Center marginX={4} marginY={4}>
         <Image
           alt="title"
           size="lg"
-          source={require("./resources/title.png")}
+          source={require("../../assets/title.png")}
           width="full"
         />
       </Center>
       <Flex>
-        <ScrollView height="68%">
+        <ScrollView centerContent horizontal>
           <MenuTile
-            source={require("./resources/characters.jpeg")}
+            onPress={handleCharacters}
+            source={require("../../assets/characters.jpeg")}
             title="characters"
           />
           <MenuTile
-            source={require("./resources/locations.jpeg")}
+            onPress={handleLocations}
+            source={require("../../assets/locations.jpeg")}
             title="locations"
           />
           <MenuTile
-            source={require("./resources/episodes.jpeg")}
+            onPress={handleEpisodes}
+            source={require("../../assets/episodes.jpeg")}
             title="episodes"
           />
         </ScrollView>
+        <Box m={2}>
+          <Heading color="coolGray.700" size="sm">
+            Welcome to Rick and Morty App
+          </Heading>
+          <Text color="coolGray.700" mt={1}>
+            You can browse through Characters, Locations and Episodes using
+            swipe menu above this text!
+          </Text>
+          <Text color="coolGray.700" mt={1}>
+            You can check detailed info about each Character and Location or
+            Episode. Search field on category screens will let you find what you
+            want. Apply some filters in case you want to be more specific while
+            browsing.
+          </Text>
+        </Box>
       </Flex>
+      <Flex flexGrow={1} />
       <Footer />
     </Box>
   );
 };
-
-// const styles = StyleSheet.create({});

@@ -3,11 +3,12 @@ import { ReactElement } from "react";
 import { ImageSourcePropType } from "react-native";
 
 type Props = {
+  onPress: () => void;
   source: ImageSourcePropType;
   title: string;
 };
 
-export const MenuTile = ({ source, title }: Props): ReactElement => {
+export const MenuTile = ({ onPress, source, title }: Props): ReactElement => {
   return (
     <Pressable
       _pressed={{
@@ -17,8 +18,10 @@ export const MenuTile = ({ source, title }: Props): ReactElement => {
       borderRadius={4}
       borderWidth={2}
       m={2}
+      onPress={onPress}
       p={3}
       shadow={3}
+      width={350}
     >
       <Center>
         <Heading color="coolGray.700" marginBottom={2}>
