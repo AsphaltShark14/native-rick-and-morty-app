@@ -1,9 +1,9 @@
 import {
-  createContext,
-  ReactElement,
-  ReactNode,
-  useContext,
-  useMemo,
+createContext,
+ReactElement,
+ReactNode,
+useContext,
+useMemo,
 } from "react";
 {{#unless isSimple}}
 import { QueryFunction } from "@tanstack/react-query";
@@ -11,72 +11,72 @@ import { QueryFunction } from "@tanstack/react-query";
 type {{ model }}Id = string;
 
 export type {{ model }} = {
-  id: {{ model }}Id;
-  data?: string;
+id: {{ model }}Id;
+data?: string;
 };
 
 type {{ model }}Key = ["{{ camelCase model }}", {{ model }}Id];
 {{/unless}}
 
 export type {{ basename path }}Value = {
-  {{#if isSimple}}
-  data?: string;
-  {{else}}
-  get: QueryFunction<{{ model }}, {{ model }}Key>;
+{{#if isSimple}}
+data?: string;
+{{else}}
+get: QueryFunction<{{ model }}, {{ model }}Key>;
   key: (id: {{ model }}Id) => {{ model }}Key;
   {{/if}}
-};
+  };
 
-type {{ basename path }}NullableValue =
+  type {{ basename path }}NullableValue =
   | {
-      isInitialized: false;
+  isInitialized: false;
+  }
+  | {
+  isInitialized: true;
+  value: {{ basename path }}Value;
+  };
+
+  export const {{ basename path }} = createContext<{{ basename path }}NullableValue>({
+    isInitialized: false,
+    });
+
+    export const use{{ basename path }} = (): {{ basename path }}Value => {
+    const context = useContext({{ basename path }});
+
+    if (!context.isInitialized) {
+    throw new Error("{{ basename path }} not defined");
     }
-  | {
-      isInitialized: true;
-      value: {{ basename path }}Value;
+
+    return context.value;
     };
 
-export const {{ basename path }} = createContext<{{ basename path }}NullableValue>({
-  isInitialized: false,
-});
+    type Props = {
+    children: ReactNode;
+    };
 
-export const use{{ basename path }} = (): {{ basename path }}Value => {
-  const context = useContext({{ basename path }});
-
-  if (!context.isInitialized) {
-    throw new Error("{{ basename path }} not defined");
-  }
-
-  return context.value;
-};
-
-type Props = {
-  children: ReactNode;
-};
-
-export const {{ basename path }}Provider = ({ children }: Props): ReactElement => {
-  const value = useMemo<{{ basename path }}NullableValue>(() => {
-    return {
+    export const {{ basename path }}Provider = ({ children }: Props): ReactElement => {
+    const value = useMemo<{{ basename path }}NullableValue>(() => {
+      return {
       isInitialized: true,
       value: {
-        {{#if isSimple}}
-        data: "",
-        {{else}}
-        get: async ({ queryKey }) => {
-          const result = await Promise.resolve({ id: queryKey[1] });
-          return result;
-        },
-        key: (id) => {
-          return ["{{ camelCase model }}", id];
-        },
-        {{/if}}
+      {{#if isSimple}}
+      data: "",
+      {{else}}
+      get: async ({ queryKey }) => {
+      const result = await Promise.resolve({ id: queryKey[1] });
+      return result;
       },
-    };
-  }, []);
+      key: (id) => {
+      return ["{{ camelCase model }}", id];
+      },
+      {{/if}}
+      },
+      };
+      }, []);
 
-  return (
-    <{{ basename path }}.Provider value={value}>
-      {children}
-    </{{ basename path }}.Provider>
-  );
-};
+      return (
+      <{{ basename path }}.Provider value={value}>
+        {children}
+      </{{ basename path }}.Provider>
+      );
+      };
