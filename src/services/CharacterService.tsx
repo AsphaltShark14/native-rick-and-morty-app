@@ -19,6 +19,13 @@ type Location = {
   location: string;
 };
 
+type InfoData = {
+  count: number;
+  next: string;
+  pages: number;
+  prev: null | string;
+};
+
 export type Character = {
   episode: string[];
   gender: string;
@@ -30,6 +37,11 @@ export type Character = {
   species: string;
   status: string;
   type: string;
+};
+
+export type CharacterListResult = {
+  info: InfoData;
+  results: Character[];
 };
 
 type CharactersKey = ["characters"];
@@ -75,8 +87,9 @@ export const CharacterServiceProvider = ({ children }: Props): ReactElement => {
           const response = await fetch(
             "https://rickandmortyapi.com/api/character"
           );
+          const data = await response.json();
 
-          const result = await response.json();
+          const result: Character[] = data.results;
 
           return result;
         },

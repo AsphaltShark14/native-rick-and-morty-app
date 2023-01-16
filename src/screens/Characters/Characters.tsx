@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { Box, Center, Heading, Image, Text } from "native-base";
+import { Box, Center, FlatList, Heading, Image, Text } from "native-base";
 import React, { ReactElement } from "react";
-import { StyleSheet, VirtualizedList } from "react-native";
-import {
-  Character,
-  useCharacterService,
-} from "../../services/CharacterService";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useCharacterService } from "../../services/CharacterService";
 import { CharacterTile } from "./CharacterTile/CharacterTile";
 
 export const Characters = (): ReactElement => {
@@ -14,9 +12,6 @@ export const Characters = (): ReactElement => {
     characterService.listKey(),
     characterService.list
   );
-  const getItem = (data: Character[], index: number) => {
-    return data[index];
-  };
 
   return (
     <Box backgroundColor="light.50" borderRadius="lg" flex={1} m="2">
@@ -40,17 +35,15 @@ export const Characters = (): ReactElement => {
         {isLoading ? (
           <Text>Loading...</Text>
         ) : (
-          <VirtualizedList
-            data={data}
-            getItem={getItem}
-            getItemCount={(data) => data.length}
-            initialNumToRender={4}
-            keyExtractor={(item) => item.name}
-            renderItem={({ item }) => (
-              <CharacterTile key={item.id} name={item.name} url={item.image} />
-            )}
-            style={styles.list}
-          />
+          <SafeAreaView style={styles.list}>
+            <FlatList
+              data={data}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => {
+                return <CharacterTile name={item.name} url={item.image} />;
+              }}
+            />
+          </SafeAreaView>
         )}
       </Center>
     </Box>
@@ -60,5 +53,6 @@ export const Characters = (): ReactElement => {
 const styles = StyleSheet.create({
   list: {
     alignSelf: "stretch",
+    flex: 1,
   },
 });

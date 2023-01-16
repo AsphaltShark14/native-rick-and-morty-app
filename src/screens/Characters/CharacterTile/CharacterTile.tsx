@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const CharacterTile = ({ name, url }: Props): ReactElement => {
-  console.log({ name, url });
+  console.log(name);
   return (
     <Pressable
       borderColor="primary.500"

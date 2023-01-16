@@ -11,13 +11,13 @@ const App = (): ReactElement => {
 
   return (
     <NativeBaseProvider>
-      <QueryClientProvider client={client}>
-        <CharacterServiceProvider>
-          <NavigationContainer>
+      <NavigationContainer>
+        <QueryClientProvider client={client}>
+          <CharacterServiceProvider>
             <Navigator />
-          </NavigationContainer>
-        </CharacterServiceProvider>
-      </QueryClientProvider>
+          </CharacterServiceProvider>
+        </QueryClientProvider>
+      </NavigationContainer>
     </NativeBaseProvider>
   );
 };
