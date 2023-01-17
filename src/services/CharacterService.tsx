@@ -44,11 +44,15 @@ export type CharacterListResult = {
   results: Character[];
 };
 
-type CharactersKey = ["characters"];
+export type CharacterListArgs = {
+  query?: string;
+};
+
+type CharactersKey = ["characters", CharacterListArgs] | ["characters"];
 
 export type CharacterServiceValue = {
   list: QueryFunction<Character[], CharactersKey>;
-  listKey: () => CharactersKey;
+  listKey: (args: CharacterListArgs) => CharactersKey;
 };
 
 type CharacterServiceNullableValue =
@@ -83,9 +87,26 @@ export const CharacterServiceProvider = ({ children }: Props): ReactElement => {
     return {
       isInitialized: true,
       value: {
-        list: async () => {
+        list: async ({ queryKey }) => {
+          const [, args] = queryKey;
+
+          if (!args) {
+            const response = await fetch(
+              "https://rickandmortyapi.com/api/character"
+            );
+            const data = await response.json();
+
+            const result: Character[] = data.results;
+
+            return result;
+          }
+
+          const searchParams = new URLSearchParams({
+            name: args.query as string,
+          });
+
           const response = await fetch(
-            "https://rickandmortyapi.com/api/character"
+            `https://rickandmortyapi.com/api/character/${searchParams}`
           );
           const data = await response.json();
 
@@ -93,8 +114,8 @@ export const CharacterServiceProvider = ({ children }: Props): ReactElement => {
 
           return result;
         },
-        listKey: () => {
-          return ["characters"];
+        listKey: (args) => {
+          return args ? ["characters", args] : ["characters"];
         },
       },
     };

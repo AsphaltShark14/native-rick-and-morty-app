@@ -17,7 +17,12 @@ export const CharacterTile = ({ name, url }: Props): ReactElement => {
       p="3"
       w="100%"
     >
-      <Flex alignItems="center" flexDirection="row">
+      <Flex
+        alignItems="center"
+        flexDirection="row"
+        justifyContent="space-between"
+        paddingX="4"
+      >
         <Image
           alt={name}
           borderRadius="50%"
@@ -26,7 +31,9 @@ export const CharacterTile = ({ name, url }: Props): ReactElement => {
             uri: url,
           }}
         />
-        <Text fontSize="lg">{name}</Text>
+        <Text fontSize="lg" fontWeight="semibold">
+          {name}
+        </Text>
       </Flex>
     </Pressable>
   );
