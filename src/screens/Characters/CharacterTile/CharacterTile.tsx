@@ -1,6 +1,5 @@
 import { Flex, Image, Pressable, Text } from "native-base";
 import { ReactElement } from "react";
-import { StyleSheet } from "react-native";
 
 type Props = {
   name: string;
@@ -8,27 +7,27 @@ type Props = {
 };
 
 export const CharacterTile = ({ name, url }: Props): ReactElement => {
-  console.log(name);
   return (
     <Pressable
       borderColor="primary.500"
       borderRadius="4"
       borderWidth="2"
+      mx="auto"
+      my="2"
       p="3"
       w="100%"
     >
-      <Flex>
+      <Flex alignItems="center" flexDirection="row">
         <Image
           alt={name}
-          size="xs"
+          borderRadius="50%"
+          size="sm"
           source={{
             uri: url,
           }}
         />
-        <Text>{name}</Text>
+        <Text fontSize="lg">{name}</Text>
       </Flex>
     </Pressable>
   );
 };
-
-const styles = StyleSheet.create({});

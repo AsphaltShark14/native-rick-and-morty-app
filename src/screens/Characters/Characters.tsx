@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Box, Center, FlatList, Heading, Image, Text } from "native-base";
 import React, { ReactElement } from "react";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { useCharacterService } from "../../services/CharacterService";
 import { CharacterTile } from "./CharacterTile/CharacterTile";
 
@@ -28,10 +27,8 @@ export const Characters = (): ReactElement => {
           source={require("../../assets/characters.jpeg")}
         />
       </Center>
-      <Center>
-        <Heading color="coolGray.700" mt="4">
-          LIST OF CHARACTERS
-        </Heading>
+      <Center mt="6">
+        <Heading color="coolGray.700">LIST OF CHARACTERS</Heading>
         {isLoading ? (
           <Text>Loading...</Text>
         ) : (
@@ -39,9 +36,9 @@ export const Characters = (): ReactElement => {
             <FlatList
               data={data}
               keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => {
-                return <CharacterTile name={item.name} url={item.image} />;
-              }}
+              renderItem={({ item }) => (
+                <CharacterTile name={item.name} url={item.image} />
+              )}
             />
           </SafeAreaView>
         )}
@@ -52,7 +49,6 @@ export const Characters = (): ReactElement => {
 
 const styles = StyleSheet.create({
   list: {
-    alignSelf: "stretch",
-    flex: 1,
+    width: "100%",
   },
 });
