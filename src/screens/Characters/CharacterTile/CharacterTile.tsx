@@ -3,10 +3,11 @@ import { ReactElement } from "react";
 
 type Props = {
   name: string;
+  onPress: () => void;
   url: string;
 };
 
-export const CharacterTile = ({ name, url }: Props): ReactElement => {
+export const CharacterTile = ({ name, url, onPress }: Props): ReactElement => {
   return (
     <Pressable
       borderColor="primary.500"
@@ -14,6 +15,7 @@ export const CharacterTile = ({ name, url }: Props): ReactElement => {
       borderWidth="2"
       mx="auto"
       my="2"
+      onPress={onPress}
       p="3"
       w="100%"
     >
@@ -31,7 +33,7 @@ export const CharacterTile = ({ name, url }: Props): ReactElement => {
             uri: url,
           }}
         />
-        <Text fontSize="lg" fontWeight="semibold">
+        <Text fontSize="lg" fontWeight="semibold" isTruncated maxW="48">
           {name}
         </Text>
       </Flex>

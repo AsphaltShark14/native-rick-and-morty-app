@@ -10,13 +10,13 @@ import {
 type CharacterId = number;
 
 type Origin = {
-  link: string;
-  originLocation: string;
+  name: string;
+  url: string;
 };
 
 type Location = {
-  link: string;
-  location: string;
+  name: string;
+  url: string;
 };
 
 type InfoData = {
@@ -48,10 +48,13 @@ export type CharacterListArgs = {
   query?: string;
 };
 
+type CharacterKey = ["character", CharacterId];
 type CharactersKey = ["characters", CharacterListArgs] | ["characters"];
 
 export type CharacterServiceValue = {
-  list: QueryFunction<Character[], CharactersKey>;
+  get: QueryFunction<Character, CharacterKey>;
+  key: (id: number) => CharacterKey;
+  list: QueryFunction<CharacterListResult, CharactersKey>;
   listKey: (args: CharacterListArgs) => CharactersKey;
 };
 
@@ -87,32 +90,36 @@ export const CharacterServiceProvider = ({ children }: Props): ReactElement => {
     return {
       isInitialized: true,
       value: {
+        get: async ({ queryKey }) => {
+          const [, id] = queryKey;
+
+          const response = await fetch(
+            `https://rickandmortyapi.com/api/character/${id}`
+          );
+
+          const result = response.json();
+
+          return result;
+        },
+        key: (id) => ["character", id],
         list: async ({ queryKey }) => {
           const [, args] = queryKey;
 
-          if (!args) {
+          if (!args?.query) {
             const response = await fetch(
               "https://rickandmortyapi.com/api/character"
             );
             const data = await response.json();
 
-            const result: Character[] = data.results;
-
-            return result;
+            return data;
           }
-
-          const searchParams = new URLSearchParams({
-            name: args.query as string,
-          });
 
           const response = await fetch(
             `https://rickandmortyapi.com/api/character/?name=${args.query}`
           );
           const data = await response.json();
 
-          const result: Character[] = data.results;
-
-          return result;
+          return data;
         },
         listKey: (args) => {
           return args ? ["characters", args] : ["characters"];

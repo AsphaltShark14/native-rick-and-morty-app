@@ -9,17 +9,11 @@ import {
   Text,
 } from "native-base";
 import { ReactElement } from "react";
+import { RootStackParams } from "../../routes/HomeNavigator";
 import { Footer } from "./Footer/Footer";
 import { MenuTile } from "./MenuTile/MenuTile";
 
-type RootStackParamList = {
-  Characters: undefined;
-  Episodes: undefined;
-  Home: undefined;
-  Locations: undefined;
-};
-
-type Props = NativeStackScreenProps<RootStackParamList, "Home">;
+type Props = NativeStackScreenProps<RootStackParams, "Home">;
 
 export const Home = ({ navigation }: Props): ReactElement => {
   const handleCharacters = () => {
