@@ -1,20 +1,28 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import {
   Box,
   Center,
-  FlatList,
   Flex,
   Heading,
   Image,
   Pressable,
+  Spinner,
 } from "native-base";
 import React, { ReactElement, useState } from "react";
-import { Keyboard, SafeAreaView, StyleSheet } from "react-native";
+import {
+  Keyboard,
+  SafeAreaView,
+  StyleSheet,
+  VirtualizedList,
+} from "react-native";
 import { LoadingSpinner } from "../../modules/LoadingSpinner/LoadingSpinner";
 import { SearchBar } from "../../modules/SearchBar/SearchBar";
 import { RootStackParams } from "../../routes/HomeNavigator";
-import { useCharacterService } from "../../services/CharacterService";
+import {
+  Character,
+  useCharacterService,
+} from "../../services/CharacterService";
 import { CharacterTile } from "./CharacterTile/CharacterTile";
 
 type Props = NativeStackScreenProps<RootStackParams, "Characters">;
@@ -23,10 +31,31 @@ export const Characters = ({ navigation }: Props): ReactElement => {
   const [query, setQuery] = useState<string>();
 
   const characterService = useCharacterService();
-  const { data, isLoading } = useQuery(
-    characterService.listKey({ query }),
-    characterService.list
-  );
+  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery(
+      characterService.listKey({ query }),
+      characterService.list,
+      {
+        getNextPageParam: (lastPage) => {
+          if (lastPage.info.next) {
+            return lastPage.info.next;
+          }
+          return;
+        },
+      }
+    );
+
+  const loadMore = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const finalData = data?.pages.flatMap((page) => page.results);
+
+  const getItem = (data: Character[], index: number) => {
+    return data[index];
+  };
 
   const changeHandler = (query: string) => {
     setQuery(query);
@@ -64,9 +93,16 @@ export const Characters = ({ navigation }: Props): ReactElement => {
             <LoadingSpinner text="Loading Characters" />
           ) : (
             <SafeAreaView style={styles.list}>
-              <FlatList
-                data={data?.results}
+              <VirtualizedList
+                ListFooterComponent={
+                  isFetchingNextPage ? <Spinner size="lg" /> : null
+                }
+                data={finalData}
+                getItem={getItem}
+                getItemCount={(data) => data.length}
                 keyExtractor={(item) => item.id.toString()}
+                onEndReached={loadMore}
+                onEndReachedThreshold={0.3}
                 renderItem={({ item }) => (
                   <CharacterTile
                     name={item.name}
