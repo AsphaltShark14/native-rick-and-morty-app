@@ -106,7 +106,7 @@ export const CharacterServiceProvider = ({ children }: Props): ReactElement => {
           });
 
           const response = await fetch(
-            `https://rickandmortyapi.com/api/character/${searchParams}`
+            `https://rickandmortyapi.com/api/character/?name=${args.query}`
           );
           const data = await response.json();
 
