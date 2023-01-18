@@ -6,7 +6,10 @@ type Props = {
   name: string;
 };
 
-export const EpisodeTile = ({ name, episode }: Props): ReactElement => {
+export const CharacterEpisodeTile = ({
+  name,
+  episode,
+}: Props): ReactElement => {
   return (
     <Flex direction="row">
       <Text color="coolGray.700" fontSize="lg" fontWeight="semibold" w="20">

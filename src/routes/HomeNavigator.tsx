@@ -2,8 +2,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ReactElement } from "react";
 import { Character } from "../screens/Characters/Character/Character";
 import { Characters } from "../screens/Characters/Characters";
+import { Episode } from "../screens/Episodes/Episode/Episode";
+import { Episodes } from "../screens/Episodes/Episodes";
 import { Home } from "../screens/Home/Home";
-import { EpisodesNavigator } from "./EpisodesNavigator";
 import { LocationsNavigator } from "./LocationsNavigator";
 
 export type RootStackParams = {
@@ -11,6 +12,9 @@ export type RootStackParams = {
     id: number;
   };
   Characters: undefined;
+  Episode: {
+    id: number;
+  };
   Episodes: undefined;
   Home: undefined;
   Locations: undefined;
@@ -25,7 +29,8 @@ export const HomeNavigator = (): ReactElement => {
       <Stack.Screen component={Characters} name="Characters" />
       <Stack.Screen component={Character} name="Character" />
       <Stack.Screen component={LocationsNavigator} name="Locations" />
-      <Stack.Screen component={EpisodesNavigator} name="Episodes" />
+      <Stack.Screen component={Episodes} name="Episodes" />
+      <Stack.Screen component={Episode} name="Episode" />
     </Stack.Navigator>
   );
 };

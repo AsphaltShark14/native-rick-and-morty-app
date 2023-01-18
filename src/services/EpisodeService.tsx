@@ -12,7 +12,8 @@ type EpisodeId = number;
 type EpisodesIds = string[];
 
 export type Episode = {
-  airDate: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  air_date: string;
   characters: string[];
   episode: string;
   id: EpisodeId;
@@ -82,13 +83,7 @@ export const EpisodeServiceProvider = ({ children }: Props): ReactElement => {
           const response = await fetch(
             `https://rickandmortyapi.com/api/episode/${ids}`
           );
-          const data = await response.json();
-
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const result = [data].flat().map((element: any) => ({
-            ...element,
-            airDate: element.air_date,
-          }));
+          const result = await response.json();
 
           return result;
         },
@@ -99,46 +94,28 @@ export const EpisodeServiceProvider = ({ children }: Props): ReactElement => {
             `https://rickandmortyapi.com/api/episode/${id}`
           );
 
-          const data = await response.json();
-
-          const result = {
-            ...data,
-            airDate: data.air_date,
-          };
+          const result = await response.json();
 
           return result;
         },
         key: (id) => {
           return ["episode", id];
         },
-        list: async ({ queryKey }) => {
+        list: async ({ queryKey, pageParam }) => {
           const [, args] = queryKey;
 
-          if (!args?.query) {
-            const response = await fetch(
-              `https://rickandmortyapi.com/api/episode`
-            );
-            const data = await response.json();
+          const fetchURL =
+            pageParam || `https://rickandmortyapi.com/api/episode/?page=1`;
 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const result = [...data].map((element: any) => ({
-              ...element,
-              airDate: element.air_date,
-            }));
+          if (!args?.query) {
+            const response = await fetch(fetchURL);
+            const result = await response.json();
 
             return result;
           }
 
-          const response = await fetch(
-            `https://rickandmortyapi.com/api/episode/?name=${args.query}`
-          );
-          const data = await response.json();
-
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const result = data.map((element: any) => ({
-            ...element,
-            airDate: element.air_date,
-          }));
+          const response = await fetch(`${fetchURL}&name=${args.query}`);
+          const result = await response.json();
 
           return result;
         },

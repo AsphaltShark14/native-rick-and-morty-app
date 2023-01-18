@@ -16,14 +16,14 @@ import { InfoComponent } from "../../../modules/InfoComponent/InfoComponent";
 import { LoadingSpinner } from "../../../modules/LoadingSpinner/LoadingSpinner";
 import { RootStackParams } from "../../../routes/HomeNavigator";
 import { useCharacterService } from "../../../services/CharacterService";
-import { EpisodesList } from "./EpisodesList/EpisodesList";
+import { CharacterEpisodesList } from "./CharacterEpisodesList/CharacterEpisodesList";
 
 type Props = NativeStackScreenProps<RootStackParams, "Character">;
 
 export const Character = ({ route }: Props): ReactElement => {
   const id = route.params.id;
 
-  const { windowWidth } = useDimensions();
+  const { windowWidth, windowHeight } = useDimensions();
 
   const characterService = useCharacterService();
   const { data, isLoading } = useQuery(
@@ -41,11 +41,11 @@ export const Character = ({ route }: Props): ReactElement => {
   };
 
   return (
-    <Flex>
+    <Flex h={windowHeight}>
       {isLoading ? (
         <LoadingSpinner text="Loading Character" />
       ) : (
-        <>
+        <Flex>
           <Flex
             alignItems="center"
             justifyContent="space-between"
@@ -105,10 +105,10 @@ export const Character = ({ route }: Props): ReactElement => {
               <Heading color="coolGray.700" mx="auto" my="2">
                 LIST OF EPISODES
               </Heading>
-              <EpisodesList episodes={episodes()} />
+              <CharacterEpisodesList episodes={episodes()} />
             </Flex>
           </ScrollView>
-        </>
+        </Flex>
       )}
     </Flex>
   );
