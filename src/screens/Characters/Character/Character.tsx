@@ -7,26 +7,41 @@ import {
   Heading,
   Image,
   Pressable,
+  ScrollView,
   Text,
 } from "native-base";
 import { ReactElement } from "react";
+import { useDimensions } from "../../../hooks/useDimensions";
 import { InfoComponent } from "../../../modules/InfoComponent/InfoComponent";
 import { LoadingSpinner } from "../../../modules/LoadingSpinner/LoadingSpinner";
 import { RootStackParams } from "../../../routes/HomeNavigator";
 import { useCharacterService } from "../../../services/CharacterService";
+import { EpisodesList } from "./EpisodesList/EpisodesList";
 
 type Props = NativeStackScreenProps<RootStackParams, "Character">;
 
 export const Character = ({ route }: Props): ReactElement => {
   const id = route.params.id;
+
+  const { windowWidth } = useDimensions();
+
   const characterService = useCharacterService();
   const { data, isLoading } = useQuery(
     characterService.key(id),
     characterService.get
   );
-  console.log(data?.episode);
+  const episodes = () => {
+    const episodesIds: string[] = [];
+
+    data?.episode.forEach((episode) => {
+      const result = episode.split("/").pop();
+      episodesIds.push(result as string);
+    });
+    return episodesIds;
+  };
+
   return (
-    <Center>
+    <Flex>
       {isLoading ? (
         <LoadingSpinner text="Loading Character" />
       ) : (
@@ -49,40 +64,52 @@ export const Character = ({ route }: Props): ReactElement => {
               source={{ uri: data?.image }}
             />
           </Flex>
-          <Flex>
-            <Heading color="coolGray.700" mx="auto" my="3">
-              ADDITIONAL INFO
-            </Heading>
-            <InfoComponent info={data?.status} name="Status" />
-            <InfoComponent info={data?.species} name="Species" />
-            <InfoComponent info={data?.gender} name="Gender" />
-          </Flex>
-          <Flex direction="row" justify="space-between" mt="4" w="72">
-            <Center>
-              <Text color="coolGray.700" fontSize="lg" fontWeight="semibold">
-                ORIGIN
-              </Text>
-              <Pressable>
-                <Button size="lg">{data?.origin.name}</Button>
-              </Pressable>
-            </Center>
-            <Center>
-              <Text color="coolGray.700" fontSize="lg" fontWeight="semibold">
-                LOCATION
-              </Text>
-              <Pressable>
-                <Button size="lg">{data?.location.name}</Button>
-              </Pressable>
-            </Center>
-          </Flex>
-          <Flex>
-            <Heading color="coolGray.700" mx="auto" my="3">
-              LIST OF EPISODES
-            </Heading>
-            <EpisodesList />
-          </Flex>
+          <ScrollView centerContent horizontal>
+            <Flex w={windowWidth}>
+              <Flex>
+                <Heading color="coolGray.700" mx="auto" my="3">
+                  ADDITIONAL INFO
+                </Heading>
+                <InfoComponent info={data?.status} name="Status" />
+                <InfoComponent info={data?.species} name="Species" />
+                <InfoComponent info={data?.gender} name="Gender" />
+              </Flex>
+              <Flex mt="4" mx="auto" w="72">
+                <Center>
+                  <Text
+                    color="coolGray.700"
+                    fontSize="lg"
+                    fontWeight="semibold"
+                  >
+                    ORIGIN
+                  </Text>
+                  <Pressable>
+                    <Button size="lg">{data?.origin.name}</Button>
+                  </Pressable>
+                </Center>
+                <Center mt="2">
+                  <Text
+                    color="coolGray.700"
+                    fontSize="lg"
+                    fontWeight="semibold"
+                  >
+                    LOCATION
+                  </Text>
+                  <Pressable>
+                    <Button size="lg">{data?.location.name}</Button>
+                  </Pressable>
+                </Center>
+              </Flex>
+            </Flex>
+            <Flex p="4" w={windowWidth}>
+              <Heading color="coolGray.700" mx="auto" my="2">
+                LIST OF EPISODES
+              </Heading>
+              <EpisodesList episodes={episodes()} />
+            </Flex>
+          </ScrollView>
         </>
       )}
-    </Center>
+    </Flex>
   );
 };

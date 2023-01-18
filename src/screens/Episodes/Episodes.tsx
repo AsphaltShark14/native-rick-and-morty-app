@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { View, Text, StyleSheet } from "react-native"
+import { Text, View } from "react-native";
 
 type Props = {
   data?: string;
@@ -13,5 +13,3 @@ export const Episodes = ({ data }: Props): ReactElement => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({});

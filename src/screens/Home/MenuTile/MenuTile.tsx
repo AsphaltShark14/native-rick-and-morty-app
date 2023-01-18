@@ -1,6 +1,7 @@
 import { Center, Heading, Image, Pressable } from "native-base";
 import { ReactElement } from "react";
 import { ImageSourcePropType } from "react-native";
+import { useDimensions } from "../../../hooks/useDimensions";
 
 type Props = {
   onPress: () => void;
@@ -9,20 +10,9 @@ type Props = {
 };
 
 export const MenuTile = ({ onPress, source, title }: Props): ReactElement => {
+  const { windowWidth } = useDimensions();
   return (
-    <Pressable
-      _pressed={{
-        borderColor: "primary.700",
-      }}
-      borderColor="primary.500"
-      borderRadius={4}
-      borderWidth={2}
-      m={2}
-      onPress={onPress}
-      p={3}
-      shadow={3}
-      width={350}
-    >
+    <Pressable my={2} onPress={onPress} p={3} shadow={3} w={windowWidth}>
       <Center>
         <Heading color="coolGray.700" marginBottom={2}>
           {title.toUpperCase()}

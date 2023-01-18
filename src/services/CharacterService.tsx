@@ -6,6 +6,7 @@ import {
   useContext,
   useMemo,
 } from "react";
+import { InfoData } from "../utils/types";
 
 type CharacterId = number;
 
@@ -17,13 +18,6 @@ type Origin = {
 type Location = {
   name: string;
   url: string;
-};
-
-type InfoData = {
-  count: number;
-  next: string;
-  pages: number;
-  prev: null | string;
 };
 
 export type Character = {

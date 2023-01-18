@@ -5,6 +5,7 @@ import React, { ReactElement, useState } from "react";
 import "react-native-gesture-handler";
 import { Navigator } from "./src/routes/Navigator";
 import { CharacterServiceProvider } from "./src/services/CharacterService";
+import { EpisodeServiceProvider } from "./src/services/EpisodeService";
 
 const App = (): ReactElement => {
   const [client] = useState(() => new QueryClient());
@@ -14,7 +15,9 @@ const App = (): ReactElement => {
       <NavigationContainer>
         <QueryClientProvider client={client}>
           <CharacterServiceProvider>
-            <Navigator />
+            <EpisodeServiceProvider>
+              <Navigator />
+            </EpisodeServiceProvider>
           </CharacterServiceProvider>
         </QueryClientProvider>
       </NavigationContainer>
