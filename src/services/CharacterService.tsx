@@ -34,6 +34,7 @@ export type Character = {
 };
 
 export type CharacterListResult = {
+  error?: string;
   info: InfoData;
   results: Character[];
 };
@@ -107,7 +108,6 @@ export const CharacterServiceProvider = ({ children }: Props): ReactElement => {
 
             return data;
           }
-
           const response = await fetch(`${fetchURL}&name=${args.query}`);
           const data = await response.json();
 

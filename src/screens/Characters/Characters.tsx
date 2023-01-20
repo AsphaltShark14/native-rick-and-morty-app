@@ -37,10 +37,10 @@ export const Characters = ({ navigation }: Props): ReactElement => {
       characterService.list,
       {
         getNextPageParam: (lastPage) => {
-          if (lastPage.info.next) {
-            return lastPage.info.next;
+          if (lastPage.error) {
+            return;
           }
-          return;
+          return lastPage.info.next;
         },
       }
     );
