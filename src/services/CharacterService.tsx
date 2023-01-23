@@ -96,19 +96,24 @@ export const CharacterServiceProvider = ({ children }: Props): ReactElement => {
           return result;
         },
         key: (id) => ["character", id],
-        list: async ({ queryKey, pageParam }) => {
+        list: async ({ queryKey, pageParam = "1" }) => {
           const [, args] = queryKey;
-          const fetchURL =
-            pageParam || `https://rickandmortyapi.com/api/character/?page=1`;
+
+          const page: string =
+            pageParam.length === 1 ? pageParam : pageParam.split("=").pop();
 
           if (!args?.query) {
-            const response = await fetch(fetchURL);
+            const response = await fetch(
+              `https://rickandmortyapi.com/api/character/?page=${page}`
+            );
             const data = await response.json();
 
             return data;
           }
 
-          const response = await fetch(`${fetchURL}&name=${args.query}`);
+          const response = await fetch(
+            `https://rickandmortyapi.com/api/character/?name=${args.query}&page=${page}`
+          );
           const data = await response.json();
 
           return data;

@@ -37,10 +37,10 @@ export const Characters = ({ navigation }: Props): ReactElement => {
       characterService.list,
       {
         getNextPageParam: (lastPage) => {
-          if (lastPage.info.next) {
+          if (lastPage.info) {
             return lastPage.info.next;
           }
-          return;
+          return lastPage;
         },
       }
     );
@@ -49,6 +49,7 @@ export const Characters = ({ navigation }: Props): ReactElement => {
     if (hasNextPage) {
       fetchNextPage();
     }
+    return;
   };
 
   const finalData = data?.pages.flatMap((page) => page.results);
