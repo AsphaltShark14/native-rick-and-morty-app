@@ -34,6 +34,7 @@ export type Character = {
 };
 
 export type CharacterListResult = {
+  error?: string;
   info: InfoData;
   results: Character[];
 };
