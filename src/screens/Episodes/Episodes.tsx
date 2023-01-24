@@ -16,6 +16,7 @@ import {
   StyleSheet,
   VirtualizedList,
 } from "react-native";
+import { useDebounce } from "../../hooks/useDebounce";
 import { LoadingSpinner } from "../../modules/LoadingSpinner/LoadingSpinner";
 import { SearchBar } from "../../modules/SearchBar/SearchBar";
 import { RootStackParams } from "../../routes/HomeNavigator";
@@ -34,7 +35,7 @@ export const Episodes = ({ navigation }: Props): ReactElement => {
         if (lastPage.info.next) {
           return lastPage.info.next;
         }
-        return;
+        return lastPage;
       },
     });
 
@@ -50,9 +51,10 @@ export const Episodes = ({ navigation }: Props): ReactElement => {
     return data[index];
   };
 
-  const changeHandler = (query: string) => {
-    setQuery(query);
-  };
+  const debouncedSearchFilter = useDebounce(
+    (query: string) => setQuery(query),
+    1000
+  );
 
   const navigationHandler = (id: number) => {
     navigation.navigate("Episode", { id });
@@ -74,7 +76,10 @@ export const Episodes = ({ navigation }: Props): ReactElement => {
             source={require("../../assets/episodes.jpeg")}
           />
         </Center>
-        <SearchBar onChangeText={changeHandler} placeholder="Search episodes" />
+        <SearchBar
+          onChangeText={debouncedSearchFilter}
+          placeholder="Search episodes"
+        />
         <Center my="4">
           <Heading color="coolGray.700">LIST OF EPISODES</Heading>
         </Center>

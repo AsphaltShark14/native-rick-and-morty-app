@@ -16,6 +16,7 @@ import {
   StyleSheet,
   VirtualizedList,
 } from "react-native";
+import { useDebounce } from "../../hooks/useDebounce";
 import { LoadingSpinner } from "../../modules/LoadingSpinner/LoadingSpinner";
 import { SearchBar } from "../../modules/SearchBar/SearchBar";
 import { RootStackParams } from "../../routes/HomeNavigator";
@@ -37,7 +38,7 @@ export const Characters = ({ navigation }: Props): ReactElement => {
       characterService.list,
       {
         getNextPageParam: (lastPage) => {
-          if (lastPage.info) {
+          if (lastPage.info.next) {
             return lastPage.info.next;
           }
           return lastPage;
@@ -58,9 +59,10 @@ export const Characters = ({ navigation }: Props): ReactElement => {
     return data[index];
   };
 
-  const changeHandler = (query: string) => {
-    setQuery(query);
-  };
+  const debouncedSearchFilter = useDebounce(
+    (query: string) => setQuery(query),
+    1000
+  );
 
   const navigationHandler = (id: number) => {
     navigation.navigate("Character", { id });
@@ -83,7 +85,7 @@ export const Characters = ({ navigation }: Props): ReactElement => {
           />
         </Center>
         <SearchBar
-          onChangeText={changeHandler}
+          onChangeText={debouncedSearchFilter}
           placeholder="Search characters"
         />
         <Center my="4">
