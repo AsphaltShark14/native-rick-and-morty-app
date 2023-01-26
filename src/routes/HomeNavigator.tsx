@@ -5,7 +5,8 @@ import { Characters } from "../screens/Characters/Characters";
 import { Episode } from "../screens/Episodes/Episode/Episode";
 import { Episodes } from "../screens/Episodes/Episodes";
 import { Home } from "../screens/Home/Home";
-import { LocationsNavigator } from "./LocationsNavigator";
+import { Location } from "../screens/Locations/Location/Location";
+import { Locations } from "../screens/Locations/Locations";
 
 export type RootStackParams = {
   Character: {
@@ -17,6 +18,9 @@ export type RootStackParams = {
   };
   Episodes: undefined;
   Home: undefined;
+  Location: {
+    id: number;
+  };
   Locations: undefined;
 };
 
@@ -28,7 +32,8 @@ export const HomeNavigator = (): ReactElement => {
       <Stack.Screen component={Home} name="Home" />
       <Stack.Screen component={Characters} name="Characters" />
       <Stack.Screen component={Character} name="Character" />
-      <Stack.Screen component={LocationsNavigator} name="Locations" />
+      <Stack.Screen component={Locations} name="Locations" />
+      <Stack.Screen component={Location} name="Location" />
       <Stack.Screen component={Episodes} name="Episodes" />
       <Stack.Screen component={Episode} name="Episode" />
     </Stack.Navigator>
