@@ -56,7 +56,7 @@ export const Character = ({ route, navigation }: Props): ReactElement => {
               {data?.name}
             </Heading>
             <Image
-              alt="characters"
+              alt={data?.name}
               borderColor="primary.500"
               borderRadius={100}
               borderWidth={1}

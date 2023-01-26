@@ -9,6 +9,7 @@ import {
 import { InfoData } from "../utils/types";
 
 type CharacterId = number;
+type CharactersIds = string[];
 
 type Origin = {
   name: string;
@@ -45,8 +46,11 @@ export type CharacterListArgs = {
 
 type CharacterKey = ["character", CharacterId];
 type CharactersKey = ["characters", CharacterListArgs] | ["characters"];
+type CharactersEpisodeKey = ["episodeCharacter", CharactersIds];
 
 export type CharacterServiceValue = {
+  episodeKey: (arg: CharactersIds) => CharactersEpisodeKey;
+  episodeList: QueryFunction<Character[], CharactersEpisodeKey>;
   get: QueryFunction<Character, CharacterKey>;
   key: (id: number) => CharacterKey;
   list: QueryFunction<CharacterListResult, CharactersKey>;
@@ -85,6 +89,18 @@ export const CharacterServiceProvider = ({ children }: Props): ReactElement => {
     return {
       isInitialized: true,
       value: {
+        episodeKey: (arg) => ["episodeCharacter", arg],
+        episodeList: async ({ queryKey }) => {
+          const [, arg] = queryKey;
+          const ids = arg.join();
+
+          const response = await fetch(
+            `https://rickandmortyapi.com/api/character/${ids}`
+          );
+          const result = await response.json();
+
+          return result;
+        },
         get: async ({ queryKey }) => {
           const [, id] = queryKey;
 

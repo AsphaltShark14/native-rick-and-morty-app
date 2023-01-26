@@ -6,10 +6,11 @@ import { InfoComponent } from "../../../modules/InfoComponent/InfoComponent";
 import { LoadingSpinner } from "../../../modules/LoadingSpinner/LoadingSpinner";
 import { RootStackParams } from "../../../routes/HomeNavigator";
 import { useEpisodeService } from "../../../services/EpisodeService";
+import { EpisodeCharactersList } from "./EpisodeCharactersList/EpisodeCharactersList";
 
 type Props = NativeStackScreenProps<RootStackParams, "Episode">;
 
-export const Episode = ({ route }: Props): ReactElement => {
+export const Episode = ({ route, navigation }: Props): ReactElement => {
   const id = route.params.id;
 
   const episodeService = useEpisodeService();
@@ -17,6 +18,16 @@ export const Episode = ({ route }: Props): ReactElement => {
     episodeService.key(id),
     episodeService.get
   );
+
+  const characters = () => {
+    const charactersIds: string[] = [];
+
+    data?.characters.forEach((character) => {
+      const result = character.split("/").pop();
+      charactersIds.push(result as string);
+    });
+    return charactersIds;
+  };
   return (
     <Flex flex={1}>
       {isLoading ? (
@@ -39,6 +50,10 @@ export const Episode = ({ route }: Props): ReactElement => {
             <Heading color="coolGray.700" mx="auto" my="2">
               LIST OF CHARACTERS
             </Heading>
+            <EpisodeCharactersList
+              characters={characters()}
+              navigation={navigation}
+            />
           </Flex>
         </Flex>
       )}
