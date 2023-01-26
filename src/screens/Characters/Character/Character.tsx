@@ -20,7 +20,7 @@ import { CharacterEpisodesList } from "./CharacterEpisodesList/CharacterEpisodes
 
 type Props = NativeStackScreenProps<RootStackParams, "Character">;
 
-export const Character = ({ route }: Props): ReactElement => {
+export const Character = ({ route, navigation }: Props): ReactElement => {
   const id = route.params.id;
 
   const { windowWidth, windowHeight } = useDimensions();
@@ -105,7 +105,10 @@ export const Character = ({ route }: Props): ReactElement => {
               <Heading color="coolGray.700" mx="auto" my="2">
                 LIST OF EPISODES
               </Heading>
-              <CharacterEpisodesList episodes={episodes()} />
+              <CharacterEpisodesList
+                episodes={episodes()}
+                navigation={navigation}
+              />
             </Flex>
           </ScrollView>
         </Flex>

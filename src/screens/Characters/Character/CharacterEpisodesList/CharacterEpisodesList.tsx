@@ -1,7 +1,9 @@
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
 import { Flex } from "native-base";
 import { ReactElement } from "react";
 import { SafeAreaView, StyleSheet, VirtualizedList } from "react-native";
+import { RootStackParams } from "routes/HomeNavigator";
 import { LoadingSpinner } from "../../../../modules/LoadingSpinner/LoadingSpinner";
 import {
   Episode,
@@ -11,9 +13,13 @@ import { CharacterEpisodeTile } from "./CharacterEpisodeTile/CharacterEpisodeTil
 
 type Props = {
   episodes: string[];
+  navigation: NativeStackNavigationProp<RootStackParams, "Character">;
 };
 
-export const CharacterEpisodesList = ({ episodes }: Props): ReactElement => {
+export const CharacterEpisodesList = ({
+  episodes,
+  navigation,
+}: Props): ReactElement => {
   const episodeService = useEpisodeService();
   const { data, isLoading } = useQuery(
     episodeService.characterKey(episodes),
@@ -22,6 +28,10 @@ export const CharacterEpisodesList = ({ episodes }: Props): ReactElement => {
 
   const getItem = (data: Episode[], index: number) => {
     return data[index];
+  };
+
+  const navigationHandler = (id: number) => {
+    navigation.navigate("Episode", { id });
   };
   return (
     <>
@@ -36,7 +46,11 @@ export const CharacterEpisodesList = ({ episodes }: Props): ReactElement => {
               getItemCount={(data) => data.length}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
-                <CharacterEpisodeTile episode={item.episode} name={item.name} />
+                <CharacterEpisodeTile
+                  episode={item.episode}
+                  name={item.name}
+                  onPress={() => navigationHandler(item.id)}
+                />
               )}
             />
           </SafeAreaView>
@@ -48,6 +62,6 @@ export const CharacterEpisodesList = ({ episodes }: Props): ReactElement => {
 
 const styles = StyleSheet.create({
   list: {
-    height: "100%",
+    height: "80%",
   },
 });
