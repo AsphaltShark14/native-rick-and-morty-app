@@ -1,15 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
-import {
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Image,
-  Pressable,
-  ScrollView,
-  Text,
-} from "native-base";
+import { Flex, Heading, Image, ScrollView } from "native-base";
 import { ReactElement } from "react";
 import { useDimensions } from "../../../hooks/useDimensions";
 import { InfoComponent } from "../../../modules/InfoComponent/InfoComponent";
@@ -73,32 +64,8 @@ export const Character = ({ route, navigation }: Props): ReactElement => {
                 <InfoComponent info={data?.status} name="Status" />
                 <InfoComponent info={data?.species} name="Species" />
                 <InfoComponent info={data?.gender} name="Gender" />
-              </Flex>
-              <Flex mt="4" mx="auto" w="72">
-                <Center>
-                  <Text
-                    color="coolGray.700"
-                    fontSize="lg"
-                    fontWeight="semibold"
-                  >
-                    ORIGIN
-                  </Text>
-                  <Pressable>
-                    <Button size="lg">{data?.origin.name}</Button>
-                  </Pressable>
-                </Center>
-                <Center mt="2">
-                  <Text
-                    color="coolGray.700"
-                    fontSize="lg"
-                    fontWeight="semibold"
-                  >
-                    LOCATION
-                  </Text>
-                  <Pressable>
-                    <Button size="lg">{data?.location.name}</Button>
-                  </Pressable>
-                </Center>
+                <InfoComponent info={data?.origin.name} name="Origin" />
+                <InfoComponent info={data?.location.name} name="Location" />
               </Flex>
             </Flex>
             <Flex p="4" w={windowWidth}>
