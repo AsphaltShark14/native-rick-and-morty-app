@@ -18,12 +18,10 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-native",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "*": [
-        "*",
-        "*.ios",
-        "*.android"
+      "@/*": [
+        "src/*"
       ]
     },
     "types": [
@@ -39,3 +37,36 @@
     "node_modules",
   ],
 }
+// {
+//   "compilerOptions": {
+//     "allowSyntheticDefaultImports": true,
+//     "jsx": "react-native",
+//     "moduleResolution": "node",
+//     "noEmit": true,
+//     "skipLibCheck": true,
+//     "resolveJsonModule": true,
+//     "strict": true,
+//     "baseUrl": ".",
+//     "paths": {
+//       "@/*": [
+//         "src/*"
+//       ]
+//     },
+//     "target": "es5",
+//     "allowJs": true,
+//     "forceConsistentCasingInFileNames": true
+//   },
+//   "include": [
+//     "**/*.ts",
+//     "**/*.tsx",
+//     "typings/*.d.ts",
+//     "src",
+//     "*config.js"
+//   ],
+//   "exclude": [
+//     "node_modules",
+//     "metro.config.js",
+//     "jest.config.js"
+//   ],
+//   "extends": "expo/tsconfig.base"
+// }

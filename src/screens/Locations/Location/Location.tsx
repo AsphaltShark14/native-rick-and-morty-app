@@ -2,10 +2,10 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
 import { Flex, Heading } from "native-base";
 import { ReactElement } from "react";
-import { InfoComponent } from "../../../modules/InfoComponent/InfoComponent";
-import { LoadingSpinner } from "../../../modules/LoadingSpinner/LoadingSpinner";
-import { RootStackParams } from "../../../routes/HomeNavigator";
-import { useLocationService } from "../../../services/LocationService";
+import { InfoComponent } from "@/modules/InfoComponent/InfoComponent";
+import { LoadingSpinner } from "@/modules/LoadingSpinner/LoadingSpinner";
+import { RootStackParams } from "@/routes/HomeNavigator";
+import { useLocationService } from "@/services/LocationService";
 import { EpisodeCharactersList } from "../../Episodes/Episode/EpisodeCharactersList/EpisodeCharactersList";
 
 type Props = NativeStackScreenProps<RootStackParams, "Episode">;

@@ -1,3 +1,8 @@
+import { useDebounce } from "@/hooks/useDebounce";
+import { LoadingSpinner } from "@/modules/LoadingSpinner/LoadingSpinner";
+import { SearchBar } from "@/modules/SearchBar/SearchBar";
+import { RootStackParams } from "@/routes/HomeNavigator";
+import { Location, useLocationService } from "@/services/LocationService";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import {
@@ -16,11 +21,6 @@ import {
   StyleSheet,
   VirtualizedList,
 } from "react-native";
-import { useDebounce } from "../../hooks/useDebounce";
-import { LoadingSpinner } from "../../modules/LoadingSpinner/LoadingSpinner";
-import { SearchBar } from "../../modules/SearchBar/SearchBar";
-import { RootStackParams } from "../../routes/HomeNavigator";
-import { Location, useLocationService } from "../../services/LocationService";
 import { LocationTile } from "./LocationTile/LocationTile";
 
 type Props = NativeStackScreenProps<RootStackParams, "Locations">;

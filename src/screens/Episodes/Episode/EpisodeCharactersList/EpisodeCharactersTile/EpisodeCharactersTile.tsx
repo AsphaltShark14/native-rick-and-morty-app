@@ -1,6 +1,6 @@
+import { useDimensions } from "@/hooks/useDimensions";
 import { Flex, Image, Pressable, Text } from "native-base";
 import { ReactElement } from "react";
-import { useDimensions } from "../../../../../hooks/useDimensions";
 
 type Props = {
   image: string;

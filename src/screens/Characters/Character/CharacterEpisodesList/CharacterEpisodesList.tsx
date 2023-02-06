@@ -1,14 +1,11 @@
+import { LoadingSpinner } from "@/modules/LoadingSpinner/LoadingSpinner";
+import { RootStackParams } from "@/routes/HomeNavigator";
+import { Episode, useEpisodeService } from "@/services/EpisodeService";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
 import { Flex } from "native-base";
 import { ReactElement } from "react";
 import { SafeAreaView, StyleSheet, VirtualizedList } from "react-native";
-import { RootStackParams } from "routes/HomeNavigator";
-import { LoadingSpinner } from "../../../../modules/LoadingSpinner/LoadingSpinner";
-import {
-  Episode,
-  useEpisodeService,
-} from "../../../../services/EpisodeService";
 import { CharacterEpisodeTile } from "./CharacterEpisodeTile/CharacterEpisodeTile";
 
 type Props = {

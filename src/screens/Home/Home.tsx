@@ -1,30 +1,34 @@
+import { useDimensions } from "@/hooks/useDimensions";
+import { RootStackParams } from "@/routes/HomeNavigator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import {
-  Box,
-  Center,
-  Flex,
-  Heading,
-  Image,
-  ScrollView,
-  Text,
-} from "native-base";
+import { Box, Center, Flex, Heading, Image, Text } from "native-base";
 import { ReactElement } from "react";
-import { RootStackParams } from "../../routes/HomeNavigator";
+import Carousel from "react-native-reanimated-carousel";
 import { Footer } from "./Footer/Footer";
 import { MenuTile } from "./MenuTile/MenuTile";
 
 type Props = NativeStackScreenProps<RootStackParams, "Home">;
 
 export const Home = ({ navigation }: Props): ReactElement => {
-  const handleCharacters = () => {
-    navigation.navigate("Characters");
+  const { windowWidth } = useDimensions();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleNavigation = (route: any) => {
+    navigation.navigate(route);
   };
-  const handleLocations = () => {
-    navigation.navigate("Locations");
+
+  const handleIcon = (screen: string) => {
+    switch (screen) {
+      case "Characters":
+        return require("../../assets/characters.jpeg");
+      case "Locations":
+        return require("../../assets/locations.jpeg");
+      case "Episodes":
+        return require("../../assets/episodes.jpeg");
+    }
   };
-  const handleEpisodes = () => {
-    navigation.navigate("Episodes");
-  };
+
+  const screens = ["Characters", "Locations", "Episodes"];
 
   return (
     <Box backgroundColor="light.50" borderRadius="lg" flex={1} m="2">
@@ -37,23 +41,21 @@ export const Home = ({ navigation }: Props): ReactElement => {
         />
       </Center>
       <Flex>
-        <ScrollView centerContent horizontal>
-          <MenuTile
-            onPress={handleCharacters}
-            source={require("../../assets/characters.jpeg")}
-            title="characters"
-          />
-          <MenuTile
-            onPress={handleLocations}
-            source={require("../../assets/locations.jpeg")}
-            title="locations"
-          />
-          <MenuTile
-            onPress={handleEpisodes}
-            source={require("../../assets/episodes.jpeg")}
-            title="episodes"
-          />
-        </ScrollView>
+        <Carousel
+          autoPlay
+          data={screens}
+          height={windowWidth / 2}
+          loop
+          renderItem={({ item }) => (
+            <MenuTile
+              onPress={() => handleNavigation(item)}
+              source={handleIcon(item)}
+              title={item}
+            />
+          )}
+          scrollAnimationDuration={1000}
+          width={windowWidth}
+        />
         <Box m={2}>
           <Heading color="coolGray.700" size="sm">
             Welcome to Rick and Morty App

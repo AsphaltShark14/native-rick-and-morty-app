@@ -1,12 +1,12 @@
+import { useDimensions } from "@/hooks/useDimensions";
+import { InfoComponent } from "@/modules/InfoComponent/InfoComponent";
+import { LoadingSpinner } from "@/modules/LoadingSpinner/LoadingSpinner";
+import { RootStackParams } from "@/routes/HomeNavigator";
+import { useCharacterService } from "@/services/CharacterService";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
 import { Flex, Heading, Image, ScrollView } from "native-base";
 import { ReactElement } from "react";
-import { useDimensions } from "../../../hooks/useDimensions";
-import { InfoComponent } from "../../../modules/InfoComponent/InfoComponent";
-import { LoadingSpinner } from "../../../modules/LoadingSpinner/LoadingSpinner";
-import { RootStackParams } from "../../../routes/HomeNavigator";
-import { useCharacterService } from "../../../services/CharacterService";
 import { CharacterEpisodesList } from "./CharacterEpisodesList/CharacterEpisodesList";
 
 type Props = NativeStackScreenProps<RootStackParams, "Character">;
